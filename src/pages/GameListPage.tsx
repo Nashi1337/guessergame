@@ -14,7 +14,7 @@ const GameListPage: React.FC = () => {
                 Select a Game
             </Typography>
             <List>
-                {GAMES.map((game, idx) => {
+                {GAMES.map((_game, idx) => {
                     const solved = progress[idx]?.isComplete;
                     return (
                         <ListItemButton key={idx} onClick={() => navigate(`/game/${idx}`)}>

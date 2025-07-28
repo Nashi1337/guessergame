@@ -11,7 +11,7 @@ const GuessInput: React.FC<GuessInputProps> = ({ options, onGuess }) => {
         <Autocomplete
             freeSolo
             options={options}
-            onChange={(e, value) => value && onGuess(value)}
+            onChange={(_e, value) => value && onGuess(value)}
             renderInput={(params) => <TextField {...params} label="Guess the game..." variant="outlined" />}
         />
     );

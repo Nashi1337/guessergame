@@ -1,6 +1,7 @@
 {
   "name": "guessergame",
   "private": true,
+  "homepage": "https://Nashi1337.github.io/guessergame",
   "version": "0.0.0",
   "type": "module",
   "scripts": {

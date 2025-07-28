@@ -4,9 +4,25 @@ import {
     Container,
     TextField,
     Typography,
-    Stack,
-    Alert,
+    Alert, TableBody, TableRow, Table, TableCell,
 } from '@mui/material';
+import {useNavigate} from "react-router-dom";
+
+const screenshotHints = [
+    'URL to the first screenshot, preferably zoomed in, blurry or whatever',
+    'URL to second screenshot, can already be a full screenshot but make it hard',
+    'URL to third screenshot, can be easier',
+    'URL to fourth screenshot, make it even more easier',
+    'URL to fifth screenshot, can also be a gif or video'
+]
+
+const hintHints = [
+    'Metacritic Score: X%',
+    'Original Platform: X, Y, Z,...',
+    'Genre: X, Y, Z,...',
+    'Original Release: year',
+    'Developer: X'
+]
 
 const SubmitGamePage: React.FC = () => {
     const [form, setForm] = useState({
@@ -16,6 +32,8 @@ const SubmitGamePage: React.FC = () => {
     });
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState<string | null>(null);
+    const navigate = useNavigate();
+
 
     const handleChange = (
         field: 'name' | 'screenshots' | 'hints',
@@ -31,6 +49,10 @@ const SubmitGamePage: React.FC = () => {
             }));
         }
     };
+
+    function handleReturn() {
+        navigate('/');
+    }
 
     const handleSubmit = async () => {
         const toSafeString = (s: string | undefined | null) => s ?? '';
@@ -81,46 +103,102 @@ const SubmitGamePage: React.FC = () => {
     };
 
     return (
-        <Container maxWidth="sm" sx={{ mt: 4 }}>
-            <Typography variant="h4" gutterBottom>
+        <Container maxWidth="lg" sx={{ mt: 4 }}>
+            <Typography variant="h4" gutterBottom align={"center"}>
                 Submit a Game
             </Typography>
 
-            <Stack spacing={2}>
-                <TextField
-                    label="Game Name"
-                    value={form.name}
-                    onChange={(e) => handleChange('name', e.target.value)}
-                    fullWidth
-                />
+            <Table>
+                <TableBody>
+                    <TableRow>
+                        <TableCell sx={{width:'60%', p:1}}>
+                            <TextField
+                                label="Game Name"
+                                value={form.name}
+                                onChange={(e) => handleChange('name', e.target.value)}
+                                fullWidth
+                                sx={{backgroundColor:'white'}}
+                                variant="filled"
+                            />
+                        </TableCell>
+                        <TableCell
+                            sx={{
+                                verticalAlign:'top',
+                                backgroundColor: 'white',
+                                p: 1
+                            }}
+                        >
+                            <Typography>Game title exactly as it is in Wikipedia (e.g.), like "Assassin's Creed IV: Black Flag"</Typography>
+                        </TableCell>
+                    </TableRow>
 
                 {form.screenshots.map((value, i) => (
-                    <TextField
-                        key={i}
-                        label={`Screenshot ${i + 1}`}
-                        value={value}
-                        onChange={(e) => handleChange('screenshots', e.target.value, i)}
-                        fullWidth
-                    />
+                    <TableRow key={i}>
+                        <TableCell sx={{width:'60%', p:1}}>
+                            <TextField
+                                key={i}
+                                label={`Screenshot ${i + 1}`}
+                                value={value}
+                                onChange={(e) => handleChange('screenshots', e.target.value, i)}
+                                fullWidth
+                                sx={{backgroundColor:'white'}}
+                                variant="filled"
+                            />
+                        </TableCell>
+                        <TableCell
+                            sx={{
+                                verticalAlign:'top',
+                                backgroundColor: 'white',
+                                p: 1
+                            }}
+                        >
+                            <Typography>{screenshotHints[i]}</Typography>
+                        </TableCell>
+                    </TableRow>
                 ))}
 
                 {form.hints.map((value, i) => (
-                    <TextField
-                        key={i}
-                        label={`Hint ${i + 1}`}
-                        value={value}
-                        onChange={(e) => handleChange('hints', e.target.value, i)}
-                        fullWidth
-                    />
+                    <TableRow key={i}>
+                        <TableCell sx={{width:'60%', p:1}}>
+                            <TextField
+                                key={i}
+                                label={`Hint ${i + 1}`}
+                                value={value}
+                                onChange={(e) => handleChange('hints', e.target.value, i)}
+                                fullWidth
+                                sx={{backgroundColor:'white'}}
+                                variant="filled"
+                            />
+                        </TableCell>
+                        <TableCell
+                            sx={{
+                                verticalAlign:'top',
+                                backgroundColor: 'white',
+                                p: 1
+                            }}
+                        >
+                            <Typography>{hintHints[i]}</Typography>
+                        </TableCell>
+                    </TableRow>
                 ))}
-
-                <Button variant="contained" onClick={handleSubmit}>
-                    Submit
-                </Button>
-
-                {submitted && <Alert severity="success">Game submitted successfully!</Alert>}
-                {error && <Alert severity="error">{error}</Alert>}
-            </Stack>
+                <TableRow key={"buttons"}>
+                    <TableCell sx={{backgroundColor:'transparent', p:2}}>
+                        <Button variant="contained" onClick={handleSubmit}>
+                            Submit
+                        </Button>
+                    </TableCell>
+                    <TableCell align={"right"}>
+                        <Button variant={"contained"} color={"error"} onClick={handleReturn}>
+                            Return
+                        </Button>
+                    </TableCell>
+                </TableRow>
+                <TableRow>
+                    {submitted && <Alert severity="success">Game submitted successfully!</Alert>}
+                    {error && <Alert severity="error">{error}</Alert>}
+                </TableRow>
+                </TableBody>
+            </Table>
         </Container>
     );
 };

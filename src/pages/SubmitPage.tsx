@@ -7,6 +7,7 @@ import {
     Alert, TableBody, TableRow, Table, TableCell,
 } from '@mui/material';
 import {useNavigate} from "react-router-dom";
+import {useGameContext} from "../context/GameContext.tsx";
 
 const screenshotHints = [
     'URL to the first screenshot, preferably zoomed in, blurry or whatever',
@@ -33,6 +34,7 @@ const SubmitGamePage: React.FC = () => {
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const navigate = useNavigate();
+    const {games} = useGameContext();
 
 
     const handleChange = (
@@ -54,6 +56,11 @@ const SubmitGamePage: React.FC = () => {
         navigate('/');
     }
 
+    const getNextId = () => {
+        if(!games || games.length === 0) return 0;
+        return Math.max(...games.map((g) => g.gameId)) +1;
+    }
+
     const handleSubmit = async () => {
         const toSafeString = (s: string | undefined | null) => s ?? '';
         setSubmitted(false);
@@ -71,7 +78,8 @@ const SubmitGamePage: React.FC = () => {
                 hint2: toSafeString(form.hints[1]),
                 hint3: toSafeString(form.hints[2]),
                 hint4: toSafeString(form.hints[3]),
-            },
+                gameId: getNextId(),
+            }
         };
 
         try {

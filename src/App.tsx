@@ -5,11 +5,11 @@ import GamePlayPage from './pages/GamePlayPage';
 import SubmitPage from "./pages/SubmitPage.tsx";
 
 const App = () => (
-    <HashRouter basename={import.meta.env.BASE_URL}>
+    <HashRouter>
         <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/game/list" element={<GameListPage />} />
-            <Route path="/game/:id" element={<GamePlayPage />} />
+            <Route path="/game/:gameId" element={<GamePlayPage />} />
             <Route path={"/submit"} element={<SubmitPage/>}/>
         </Routes>
     </HashRouter>

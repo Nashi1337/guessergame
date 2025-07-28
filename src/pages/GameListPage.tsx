@@ -1,12 +1,17 @@
 ﻿import React from 'react';
 import { List, ListItemButton, ListItemText, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { getAllProgress } from '../utils/gameStorage';
-import { GAMES } from '../data/games'; // your game array
+import {useGameContext} from "../context/GameContext.tsx";
 
 const GameListPage: React.FC = () => {
+    const {games, loading, error} = useGameContext();
     const navigate = useNavigate();
-    const progress = getAllProgress();
+
+    if(loading) return <Typography>Loading...</Typography>;
+    if(error) return <Typography>{error}</Typography>;
+    if(!games) return <Typography>Games not found</Typography>;
+
+    console.log(games);
 
     return (
         <Container maxWidth="sm" sx={{ mt: 4 }}>
@@ -14,13 +19,12 @@ const GameListPage: React.FC = () => {
                 Select a Game
             </Typography>
             <List>
-                {GAMES.map((_game, idx) => {
-                    const solved = progress[idx]?.isComplete;
+                {games.map((game) => {
                     return (
-                        <ListItemButton key={idx} onClick={() => navigate(`/game/${idx}`)}>
+                        <ListItemButton key={game.gameId} onClick={() => navigate(`/game/${game.gameId}`)}>
                             <ListItemText
-                                primary={`Game #${idx + 1}`}
-                                secondary={solved ? '✅ Solved' : '❌ Unsolved'}
+                                primary={`Game #${game.gameId}`}
+                                secondary={`Name: ${game.name}`}
                             />
                         </ListItemButton>
                     );

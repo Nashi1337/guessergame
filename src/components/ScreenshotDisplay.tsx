@@ -20,7 +20,7 @@ const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl, hintOve
         return url;
     }
 
-
+    const type = imageUrl.match(/\.(mp4)$/i) ? "video" : "img";
 
     const normalizedUrl = normalizeImageUrl(imageUrl);
 
@@ -43,7 +43,7 @@ const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl, hintOve
                     {hintOverlay}
                 </Box>
             )}
-            <CardMedia component="img" image={normalizedUrl} alt="Game Screenshot" sx={{display:'block', width:'100%', height:'auto'}}/>
+            <CardMedia component={type} autoPlay image={normalizedUrl} alt="Game Screenshot" sx={{display:'block', width:'100%', height:'auto'}}/>
         </Card>
     );
 };

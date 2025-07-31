@@ -12,7 +12,7 @@ const GuessHistory: React.FC<GuessHistoryProps> = ({ guesses, correctAnswer }) =
             {guesses.map((guess, index) => (
                 <ListItem key={index}>
                     <ListItemText
-                        primary={guess}
+                        primary={index+1+". "+guess}
                         primaryTypographyProps={{
                             color: guess.toLowerCase() === correctAnswer.toLowerCase() ? 'green' : 'inherit',
                         }}

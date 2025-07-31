@@ -20,10 +20,12 @@ const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl, hintOve
         return url;
     }
 
+
+
     const normalizedUrl = normalizeImageUrl(imageUrl);
 
     return (
-        <Card sx={{ maxWidth: 600, mx: 'auto', my: 2 }}>
+        <Card sx={{ maxWidth: 600, mx: 'auto', my: 2, position:'relative',overflow:'hidden' }}>
             {hintOverlay && (
                 <Box
                     sx={{
@@ -41,7 +43,7 @@ const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl, hintOve
                     {hintOverlay}
                 </Box>
             )}
-            <CardMedia component="img" image={normalizedUrl} alt="Game Screenshot" />
+            <CardMedia component="img" image={normalizedUrl} alt="Game Screenshot" sx={{display:'block', width:'100%', height:'auto'}}/>
         </Card>
     );
 };

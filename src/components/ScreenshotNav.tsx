@@ -15,10 +15,9 @@ const ScreenshotNav: React.FC<ScreenshotNavProps> = ({ total, current, unlocked,
     return (
         <Stack direction="row" spacing={1} justifyContent="center" sx={{ mb: 2 }}>
             {Array.from({ length: total }).map((_, index) => {
-                const isCurrent = index === current;
                 const isSolvedIndex = index === solvedAtIndex;
 
-                let color: 'primary' | 'error' | 'success' = 'primary';
+                let color: 'secondary' | 'error' | 'success' = 'secondary';
                 if(isSolvedIndex) color='success';
                 else if(index < unlocked) color = 'error';
 
@@ -27,7 +26,7 @@ const ScreenshotNav: React.FC<ScreenshotNavProps> = ({ total, current, unlocked,
                 return (
                     <Button
                         key={index}
-                        variant={isCurrent ? 'contained' : 'outlined'}
+                        variant={'contained'}
                         color={color}
                         disabled={!isEnabled}
                         onClick={() => onSelect(index)}

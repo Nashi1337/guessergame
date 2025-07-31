@@ -11,6 +11,7 @@ interface GuessInputProps {
 const GuessInput: React.FC<GuessInputProps> = ({ options, onGuess, inputValue, onInputChange }) => {
     return (
         <Autocomplete
+            sx={{background:"white", p:1}}
             freeSolo
             options={options}
             value={inputValue}

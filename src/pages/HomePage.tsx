@@ -12,8 +12,8 @@ const HomePage: React.FC = () => {
             </Typography>
 
             <Stack spacing={2} mt={4}>
-                <Button variant="contained" onClick={() => navigate(`/game/random`)}>
-                    Play Random Game
+                <Button disabled={true} variant="contained" onClick={() => navigate(`/game/random`)}>
+                    Play Random Game (WIP)
                 </Button>
                 <Button variant="outlined" onClick={() => navigate(`/game/list`)}>
                     Choose from All Games

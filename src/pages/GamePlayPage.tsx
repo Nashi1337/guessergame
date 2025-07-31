@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import GuessInput from '../components/GuessInput';
 import GuessHistory from '../components/GuessHistory';
 import { loadGameState, saveGameState } from '../utils/gameStorage';
-import {Dialog, DialogTitle, DialogContent, Button, Typography, Stack, Box} from '@mui/material';
+import {Dialog, DialogTitle, DialogContent, Button, Typography, Box} from '@mui/material';
 import {useGameContext} from "../context/GameContext.tsx";
 import ScreenshotNav from "../components/ScreenshotNav.tsx";
 import ScreenshotDisplay from "../components/ScreenshotDisplay.tsx";
@@ -81,37 +81,40 @@ const GamePlayPage: React.FC = () => {
         (g) => g.toLowerCase() === game.name.toLowerCase(),
     );
 
+    function normalizeMetacriticScore(raw: string): string {
+        if (!raw) return "Metacritic Score: N/A";
+        const str = raw.trim().toLowerCase();
+
+        if (
+            str === 'too old' ||
+            str === 'not rated yet' ||
+            str === '-' ||
+            str === 'n/a'
+        ) {
+            return "Metacritic Score: N/A";
+        }
+        const cleaned = str.replace(/^metacritic score:\s*/i, '');
+        const match = cleaned.match(/[\d.]+/);
+        if (!match) return "Metacritic Score: N/A";
+        const num = match[0];
+        return `Metacritic Score: ${num}%`;
+    }
+
     return (
         <>
             <Typography align={"center"}>Game {gameId}</Typography>
             <Typography align={"center"}>Screenshot {Math.min(guesses.length+1,screenshots.length)}</Typography>
-            {currentScreenshotIndex > 0 && (
-                <Stack spacing={1} alignItems={"center"} sx={{mb:2}}>
-                    {[game.hint1,game.hint2,game.hint3,game.hint4]
-                        .slice(0,currentScreenshotIndex)
-                        .map((hint,i) => (
-                            <Typography
-                                key={i}
-                                variant={"body2"}
-                                color={"text.secondary"}
-                                align={"center"}
-                            >
-                                {hint}
-                            </Typography>
-                        ))}
-                </Stack>
-            )}
             <ScreenshotDisplay
                 imageUrl={screenshots[currentScreenshotIndex]}
                 guessNumber={currentScreenshotIndex}
                 hintOverlay={
                     displayedHints.length > 0 ? (
                         <Box>
-                            {displayedHints.map((hint,i) => (
-                                <Typography key={i} variant={"body2"}>
-                                    {hint}
-                                </Typography>
-                            ))}
+                            <Typography variant={"body2"}>
+                                {displayedHints.length == 1
+                                    ? normalizeMetacriticScore(displayedHints[displayedHints.length-1])
+                                    : displayedHints[displayedHints.length-1]}
+                            </Typography>
                         </Box>
                     ) : null
                 }

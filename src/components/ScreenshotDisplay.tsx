@@ -1,12 +1,13 @@
 ﻿import React from 'react';
-import { Card, CardMedia } from '@mui/material';
+import {Box, Card, CardMedia} from '@mui/material';
 
 interface ScreenshotDisplayProps {
     imageUrl: string;
     guessNumber: number;
+    hintOverlay?: React.ReactNode;
 }
 
-const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl }) => {
+const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl, hintOverlay }) => {
 
     function normalizeImageUrl(url: string): string {
         if (url.match(/\.(png|jpg|jpeg|webp|gif)$/i)) return url;
@@ -23,6 +24,23 @@ const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl }) => {
 
     return (
         <Card sx={{ maxWidth: 600, mx: 'auto', my: 2 }}>
+            {hintOverlay && (
+                <Box
+                    sx={{
+                        position: 'absolute',
+                        top: 0,
+                        left: 0,
+                        bgcolor: 'rgba(0,0,0,0.6)',
+                        color:'white',
+                        px:2,
+                        py:1,
+                        zIndex:1,
+                       borderBottomRightRadius: 4,
+                    }}
+                >
+                    {hintOverlay}
+                </Box>
+            )}
             <CardMedia component="img" image={normalizedUrl} alt="Game Screenshot" />
         </Card>
     );

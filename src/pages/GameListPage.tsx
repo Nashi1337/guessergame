@@ -11,8 +11,6 @@ const GameListPage: React.FC = () => {
     if(error) return <Typography>{error}</Typography>;
     if(!games) return <Typography>Games not found</Typography>;
 
-    console.log(games);
-
     return (
         <Container maxWidth="sm" sx={{ mt: 4 }}>
             <Typography variant="h4" gutterBottom>
@@ -24,7 +22,7 @@ const GameListPage: React.FC = () => {
                         <ListItemButton key={game.gameId} onClick={() => navigate(`/game/${game.gameId}`)}>
                             <ListItemText
                                 primary={`Game #${game.gameId}`}
-                                secondary={`Name: ${game.name}`}
+                                //secondary={`Name: ${game.name}`}
                             />
                         </ListItemButton>
                     );

@@ -7,12 +7,16 @@ import {Dialog, DialogTitle, DialogContent, Button, Typography, Stack, Box} from
 import {useGameContext} from "../context/GameContext.tsx";
 import ScreenshotNav from "../components/ScreenshotNav.tsx";
 import ScreenshotDisplay from "../components/ScreenshotDisplay.tsx";
+import {FAKE_GAMES} from "../utils/fakeGames.ts";
 
 const MAX_GUESSES = 6;
 
 const GamePlayPage: React.FC = () => {
     const { gameId } = useParams<{ gameId: string }>();
     const {games, loading, error} = useGameContext();
+
+    const realGames = games?.map(g => g.name);
+    const guessOptions = realGames ? [...new Set([...realGames, ...FAKE_GAMES])].sort() : FAKE_GAMES;
 
     const parsedGameId = parseInt(gameId || '0');
     const game = games?.find(g => g.gameId === parsedGameId);
@@ -21,6 +25,7 @@ const GamePlayPage: React.FC = () => {
     const [isComplete, setIsComplete] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [currentScreenshotIndex, setCurrentScreenshotIndex] = useState(0);
+    const [inputValue, setInputValue] = useState('');
 
     useEffect(() => {
         if(game) {
@@ -28,7 +33,6 @@ const GamePlayPage: React.FC = () => {
             if (saved) {
                 setGuesses(saved.guesses);
                 setIsComplete(saved.isComplete);
-                setShowResult(saved.isComplete);
                 setCurrentScreenshotIndex(Math.min(saved.guesses.length, screenshots.length - 1));
             }
         }
@@ -62,14 +66,21 @@ const GamePlayPage: React.FC = () => {
 
         setGuesses(updated);
         setIsComplete(gameEnded);
-        setShowResult(gameEnded);
+        if(gameEnded)
+            setShowResult(gameEnded);
 
-        setCurrentScreenshotIndex(Math.min(updated.length,screenshots.length-1));
+        if(!correct)
+            setCurrentScreenshotIndex(Math.min(updated.length,screenshots.length-1));
         saveGameState(game.gameId, { guesses: updated, isComplete: gameEnded });
+        setInputValue('');
     };
 
     const isCorrect = guesses.some((g) => g.toLowerCase() === game.name.toLowerCase());
-    
+
+    const solvedAtIndex = guesses.findIndex(
+        (g) => g.toLowerCase() === game.name.toLowerCase(),
+    );
+
     return (
         <>
             <Typography align={"center"}>Game {gameId}</Typography>
@@ -110,8 +121,19 @@ const GamePlayPage: React.FC = () => {
                 current={currentScreenshotIndex}
                 unlocked={guesses.length}
                 onSelect={setCurrentScreenshotIndex}
+                solvedAtIndex={solvedAtIndex >= 0 ? solvedAtIndex: undefined}
             />
-            {!isComplete && games && <GuessInput options={games.map(g => g.name)} onGuess={handleGuess} />}
+            {!isComplete && games &&
+                <GuessInput
+                    options={guessOptions}
+                    onGuess={(guess) => {
+                        handleGuess(guess);
+                        setInputValue('');
+                    }}
+                    inputValue={inputValue}
+                    onInputChange={(_, newValue) => setInputValue(newValue)}
+                />
+            }
             <GuessHistory guesses={guesses} correctAnswer={game.name} />
 
             <Dialog open={showResult}>

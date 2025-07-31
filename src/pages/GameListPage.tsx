@@ -2,6 +2,8 @@
 import { List, ListItemButton, ListItemText, Typography, Container } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import {useGameContext} from "../context/GameContext.tsx";
+import {loadGameState} from "../utils/gameStorage.ts";
+import {GameResultBar} from "../components/GameResultBar.tsx";
 
 const GameListPage: React.FC = () => {
     const {games, loading, error} = useGameContext();
@@ -18,11 +20,18 @@ const GameListPage: React.FC = () => {
             </Typography>
             <List>
                 {games.map((game) => {
+                    const state = loadGameState(game.gameId);
                     return (
                         <ListItemButton key={game.gameId} onClick={() => navigate(`/game/${game.gameId}`)}>
                             <ListItemText
                                 primary={`Game #${game.gameId}`}
-                                //secondary={`Name: ${game.name}`}
+                                secondary={
+                                    <GameResultBar
+                                        guesses={state?.guesses ?? null}
+                                        isComplete={state?.isComplete ?? false}
+                                        correctAnswer={game.name}
+                                    />
+                                }
                             />
                         </ListItemButton>
                     );

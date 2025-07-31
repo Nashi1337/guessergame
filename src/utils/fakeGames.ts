@@ -1,0 +1,22 @@
+export const FAKE_GAMES = [
+    "God of War", "The Last of Us", "Hades", "Celeste", "Hollow Knight", "Dead Cells",
+    "Doom", "Half-Life", "Undertale", "Shovel Knight", "Metroid Dread", "Super Meat Boy",
+    "Stardew Valley", "Hyper Light Drifter", "Cuphead", "Slay the Spire", "The Binding of Isaac",
+    "Return of the Obra Dinn", "Disco Elysium", "Inside", "Limbo", "Dark Souls", "Sekiro",
+    "Bloodborne", "Elden Ring", "Chrono Trigger", "Final Fantasy VI", "Octopath Traveler",
+    "Triangle Strategy", "Fire Emblem: Three Houses", "Persona 5", "Persona 4 Golden", "Yakuza 0",
+    "Katana ZERO", "Axiom Verge", "Fez", "Oxenfree", "Journey", "Gris", "Spiritfarer",
+    "Ori and the Blind Forest", "Ori and the Will of the Wisps", "Braid", "Papers, Please",
+    "Portal", "Portal 2", "The Talos Principle", "Bastion", "Transistor", "Pyre", "Stray",
+    "It Takes Two", "Little Nightmares", "The Witness", "The Pathless", "Tunic", "Sable",
+    "Rain World", "Norco", "Citizen Sleeper", "The Forgotten City", "Outer Wilds",
+    "Kentucky Route Zero", "Night in the Woods", "Neon White", "Risk of Rain 2", "Rogue Legacy",
+    "Dead Space", "Alan Wake", "Max Payne", "Control", "BioShock", "BioShock Infinite",
+    "Prey", "Dishonored", "Sea of Stars", "Lies of P", "Blasphemous", "Blasphemous 2",
+    "The Messenger", "Pizza Tower", "Hi-Fi Rush", "Signalis", "RE4 Remake", "Resident Evil 2",
+    "Amnesia", "SOMA", "A Plague Tale: Innocence", "Hellblade", "Cyberpunk 2077", "The Witcher 3",
+    "Monster Hunter Rise", "Monster Hunter World", "Terraria", "Minecraft", "Roblox", "Valheim",
+    "Phasmophobia", "Among Us", "Slime Rancher", "Noita", "Vampire Survivors", "Loop Hero",
+    "Cult of the Lamb", "Don't Starve", "Factorio", "Oxygen Not Included", "The Stanley Parable",
+    "The Swapper", "Ender Lilies", "Black Mesa"
+];

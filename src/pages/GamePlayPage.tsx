@@ -1,5 +1,5 @@
 ﻿import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import GuessInput from '../components/GuessInput';
 import GuessHistory from '../components/GuessHistory';
 import { loadGameState, saveGameState } from '../utils/gameStorage';
@@ -8,6 +8,7 @@ import {useGameContext} from "../context/GameContext.tsx";
 import ScreenshotNav from "../components/ScreenshotNav.tsx";
 import ScreenshotDisplay from "../components/ScreenshotDisplay.tsx";
 import {FAKE_GAMES} from "../utils/fakeGames.ts";
+import {getRandomUnplayedGame} from "../utils/randomGame.ts";
 
 const MAX_GUESSES = 6;
 
@@ -26,6 +27,18 @@ const GamePlayPage: React.FC = () => {
     const [showResult, setShowResult] = useState(false);
     const [currentScreenshotIndex, setCurrentScreenshotIndex] = useState(0);
     const [inputValue, setInputValue] = useState('');
+
+    const navigate = useNavigate();
+
+    const handlePlayAnother = () => {
+        if (!games) return;
+        const nextGame = getRandomUnplayedGame(games);
+        if(nextGame){
+            navigate(`/game/${nextGame.gameId}`);
+        }else{
+            alert("No unplayed games left! :D");
+        }
+    }
 
     const screenshots = game ? [
         game.screenshot1,
@@ -138,6 +151,15 @@ const GamePlayPage: React.FC = () => {
                 />
             }
             <GuessHistory guesses={guesses} correctAnswer={game.name} />
+
+            <Box display={"flex"} justifyContent={"center"} gap={2} mt={2}>
+                <Button variant={"outlined"} onClick={() => navigate('/game/list')}>
+                    Back to Game List
+                </Button>
+                <Button variant={"contained"} onClick={handlePlayAnother}>
+                    Play Another Random Game
+                </Button>
+            </Box>
 
             <Dialog open={showResult}>
                 <DialogTitle>{isCorrect ? "🎉 You got it!" : "❌ Out of guesses!"}</DialogTitle>

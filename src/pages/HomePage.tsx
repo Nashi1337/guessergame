@@ -1,9 +1,21 @@
-﻿import React from 'react';
-import {Button, Container, Divider, Stack, Typography} from '@mui/material';
+﻿import React, {useState} from 'react';
+import {Alert, Button, Container, Divider, Stack, Typography} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import {getRandomUnplayedGame} from "../utils/randomGame.ts";
+import {useGameContext} from "../context/GameContext.tsx";
 
 const HomePage: React.FC = () => {
     const navigate = useNavigate();
+    const {games} = useGameContext();
+    const [showError, setShowError] = useState(false);
+
+    const handlePlayRandomGame = () => {
+        if(games && games.length > 0){
+            navigate(`/game/${getRandomUnplayedGame(games)?.gameId}`)
+        }else{
+            setShowError(true);
+        }
+    }
 
     return (
         <Container maxWidth="sm" sx={{ mt: 8 }}>
@@ -12,8 +24,8 @@ const HomePage: React.FC = () => {
             </Typography>
 
             <Stack spacing={2} mt={4}>
-                <Button disabled={true} variant="contained" onClick={() => navigate(`/game/random`)}>
-                    Play Random Game (WIP)
+                <Button variant="contained" onClick={handlePlayRandomGame}>
+                    Play Random Game
                 </Button>
                 <Button variant="outlined" onClick={() => navigate(`/game/list`)}>
                     Choose from All Games
@@ -25,6 +37,9 @@ const HomePage: React.FC = () => {
                     Submit a Game
                 </Button>
             </Stack>
+            {showError && (
+                <Alert severity="error">Somehow, no games were found</Alert>
+            )}
         </Container>
     );
 };

@@ -20,12 +20,22 @@ const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl, hintOve
         return url;
     }
 
-    const type = imageUrl.match(/\.(mp4)$/i) ? "video" : "img";
+    function extractYouTubeId(url: string): string | null {
+        const match = url.match(
+            /(?:youtube\.com\/watch\?v=|youtu\.be\/)([a-zA-Z0-9_-]{11})/
+        );
+        return match ? match[1] : null;
+    }
 
+    const isYoutube = imageUrl.includes('youtube.com') || imageUrl.includes('youtu.be');
+    const youtubeId = extractYouTubeId(imageUrl);
+    const type = imageUrl.match(/\.(mp4)$/i) ? "video" : "img";
     const normalizedUrl = normalizeImageUrl(imageUrl);
 
+    console.log(normalizedUrl);
+
     return (
-        <Card sx={{ maxWidth: 600, mx: 'auto', my: 2, position:'relative',overflow:'hidden' }}>
+        <Card sx={{ maxWidth: 600, mx: 'auto', my: 2, position:'relative',overflow:'auto' }}>
             {hintOverlay && (
                 <Box
                     sx={{
@@ -43,7 +53,35 @@ const ScreenshotDisplay: React.FC<ScreenshotDisplayProps> = ({ imageUrl, hintOve
                     {hintOverlay}
                 </Box>
             )}
-            <CardMedia component={type} autoPlay image={normalizedUrl} alt="Game Screenshot" sx={{display:'block', width:'100%', height:'auto'}}/>
+            {isYoutube && youtubeId ? (
+                <Box sx={{ position: 'relative', paddingTop: '56.25%' }}>
+                    <iframe
+                        src={`https://www.youtube.com/embed/${youtubeId}`}
+                        title="YouTube video"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                        frameBorder="0"
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: 0,
+                        }}
+                    />
+                </Box>
+            ) : (
+                <CardMedia
+                    component={type}
+                    autoPlay
+                    image={normalizedUrl}
+                    alt="Game Screenshot"
+                    sx={{
+                        display:'block', width:'100%', height:'auto'
+                    }}
+                />
+            )}
         </Card>
     );
 };

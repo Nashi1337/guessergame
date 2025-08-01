@@ -37,6 +37,12 @@ const HomePage: React.FC = () => {
                     Submit a Game
                 </Button>
             </Stack>
+            <Divider />
+            <Stack>
+                <Button variant={"text"} onClick={() => navigate("/stats")}>
+                    Your Stats
+                </Button>
+            </Stack>
             {showError && (
                 <Alert severity="error">Somehow, no games were found</Alert>
             )}

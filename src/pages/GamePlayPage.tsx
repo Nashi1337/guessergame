@@ -134,7 +134,6 @@ const GamePlayPage: React.FC = () => {
             />
             <ScreenshotNav
                 total={screenshots.length}
-                current={currentScreenshotIndex}
                 unlocked={guesses.length}
                 onSelect={setCurrentScreenshotIndex}
                 solvedAtIndex={solvedAtIndex >= 0 ? solvedAtIndex: undefined}

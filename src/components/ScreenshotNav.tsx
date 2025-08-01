@@ -3,13 +3,12 @@ import { Button, Stack } from '@mui/material';
 
 interface ScreenshotNavProps {
     total: number;
-    current: number;
     unlocked: number;
     onSelect: (index:number) => void;
     solvedAtIndex?: number;
 }
 
-const ScreenshotNav: React.FC<ScreenshotNavProps> = ({ total, current, unlocked, onSelect, solvedAtIndex }) => {
+const ScreenshotNav: React.FC<ScreenshotNavProps> = ({ total, unlocked, onSelect, solvedAtIndex }) => {
     const isSolved = typeof solvedAtIndex === 'number';
 
     return (

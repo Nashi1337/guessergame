@@ -27,6 +27,14 @@ const GamePlayPage: React.FC = () => {
     const [currentScreenshotIndex, setCurrentScreenshotIndex] = useState(0);
     const [inputValue, setInputValue] = useState('');
 
+    const screenshots = game ? [
+        game.screenshot1,
+        game.screenshot2,
+        game.screenshot3,
+        game.screenshot4,
+        game.screenshot5,
+    ] : [];
+    
     useEffect(() => {
         if(game) {
             const saved = loadGameState(game.gameId);
@@ -36,20 +44,12 @@ const GamePlayPage: React.FC = () => {
                 setCurrentScreenshotIndex(Math.min(saved.guesses.length, screenshots.length - 1));
             }
         }
-    }, [game]);
+    }, [game, screenshots.length]);
 
     if(loading) return <Typography>Loading...</Typography>;
     if(error) return <Typography>{error}</Typography>;
     if(!game) return <Typography>Game not found</Typography>;
-
-    const screenshots = [
-        game.screenshot1,
-        game.screenshot2,
-        game.screenshot3,
-        game.screenshot4,
-        game.screenshot5,
-    ];
-
+    
     const displayedHints = [
         game.hint1,
         game.hint2,
